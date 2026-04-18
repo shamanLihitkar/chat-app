@@ -1,0 +1,36 @@
+<h2>Welcome to Chat</h2>
+
+<h3>Users</h3>
+
+<ul id="userList"></ul>
+
+<h3>Logged in user ID: <%= user.id %></h3>
+
+<h3>Logged in as: <%= user.name %></h3>
+
+<a href="/logout">Logout</a>
+
+
+<script>
+  async function loadUsers() {
+    const res = await fetch("/users");
+    const users = await res.json();
+
+    const list = document.getElementById("userList");
+    // console.log("Logging in user:", user.email, user._id);
+    users.forEach(user => {
+      const li = document.createElement("li");
+
+      li.innerText = user.name;
+
+      // clickable (next step will use this)
+      li.onclick = () => {
+        window.location.href = "/chat/start/" + user._id;
+      };
+      
+      list.appendChild(li);
+    });
+  }
+
+  loadUsers();
+</script>
